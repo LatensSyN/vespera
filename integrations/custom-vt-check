@@ -1,0 +1,3 @@
+#!/bin/bash
+# Vespera — Wazuh integrator entrypoint for VirusTotal enrichment (FIM).
+exec python3 /var/ossec/active-response/bin/vt-check.py "$@"

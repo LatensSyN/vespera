@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-04-12T12:00:00.000+0000",
+  "rule": {
+    "id": "554",
+    "level": 14,
+    "description": "[VT:59/72] File added to sensitive path - eicar.com",
+    "groups": ["syscheck", "ossec"],
+    "_forced_verdict": "Vrai positif probable",
+    "_forced_verdict_sub": "Score VT: 59/72 engines détectent ce fichier comme malveillant"
+  },
+  "agent": {"id": "000", "name": "lab-agent", "ip": "10.0.0.50"},
+  "syscheck": {
+    "path": "C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Startup/eicar.com",
+    "event": "added",
+    "sha256_after": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+    "md5_after": "44d88612fea8a8f36de82e1278abb02f"
+  },
+  "vt_result": {
+    "score": "59/72",
+    "verdict": "malicious",
+    "hash": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+    "filename": "eicar.com",
+    "forced_verdict": "Vrai positif probable"
+  }
+}

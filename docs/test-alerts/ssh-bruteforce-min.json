@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-04-12T12:00:00.000+0000",
+  "rule": {
+    "id": "5710",
+    "level": 10,
+    "description": "sshd: brute force trying to get access (test)",
+    "groups": ["sshd", "authentication_failures"],
+    "firedtimes": 12
+  },
+  "agent": {"id": "000", "name": "lab-agent", "ip": "10.0.0.50"},
+  "data": {
+    "src_ip": "198.51.100.10",
+    "srcport": "22",
+    "dstuser": "root"
+  }
+}

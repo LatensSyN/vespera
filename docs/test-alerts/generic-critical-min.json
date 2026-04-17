@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-04-12T12:00:00.000+0000",
+  "rule": {
+    "id": "999001",
+    "level": 12,
+    "description": "Règle custom critique — activité suspecte (test générique)",
+    "groups": ["attack", "pci_dss", "custom_lab"],
+    "firedtimes": 3
+  },
+  "agent": {"id": "000", "name": "lab-agent", "ip": "10.0.0.50"},
+  "data": {
+    "program": "suspicious_tool",
+    "extra": "demo payload for Vespera"
+  }
+}

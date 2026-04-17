@@ -1,0 +1,3 @@
+#!/bin/bash
+# Vespera — Wazuh integrator entrypoint (name must match <name>custom-ollama</name>).
+exec python3 /var/ossec/integrations/ollama-alert.py "$@"

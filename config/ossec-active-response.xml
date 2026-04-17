@@ -1,0 +1,19 @@
+<!--
+  Vespera — Active Response: AbuseIPDB enrichment (ip-enrich.py) on the manager.
+  Paste inside <ossec_config> in /var/ossec/etc/ossec.conf (with other <command> / <active-response> blocks).
+  Requires: ip-enrich.py in /var/ossec/active-response/bin/ (deploy via install.sh).
+-->
+
+<command>
+  <name>vespera-ip-enrich</name>
+  <executable>ip-enrich.py</executable>
+  <timeout_allowed>no</timeout_allowed>
+</command>
+
+<active-response>
+  <disabled>no</disabled>
+  <command>vespera-ip-enrich</command>
+  <location>server</location>
+  <level>5</level>
+  <rules_group>suricata,|ids,|sshd,|authentication_failures,</rules_group>
+</active-response>

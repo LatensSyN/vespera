@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-04-12T12:00:00.000+0000",
+  "rule": {
+    "id": "100201",
+    "level": 12,
+    "description": "Suricata Severity 1-2 — IP réputée malveillante (test AbuseIPDB)",
+    "groups": ["suricata", "ids", "alert"],
+    "_forced_verdict": "A investiguer",
+    "_forced_verdict_sub": "AbuseIPDB: 92/100 — US — Example ISP — 847 signalements"
+  },
+  "agent": {"id": "000", "name": "lab-agent", "ip": "10.0.0.50"},
+  "data": {
+    "src_ip": "185.220.101.1",
+    "dest_ip": "10.0.0.50",
+    "proto": "TCP",
+    "src_port": "54321",
+    "dest_port": "443",
+    "alert": {
+      "signature": "ET TOR Known Tor Relay/Router (test)",
+      "signature_id": "2000001",
+      "severity": "1",
+      "category": "Misc Attack"
+    }
+  },
+  "abuse_result": {
+    "ip": "185.220.101.1",
+    "score": 92,
+    "country": "US",
+    "isp": "Example Tor exit ASN (test)",
+    "reports": 847,
+    "verdict": "malicious",
+    "forced_verdict": "A investiguer"
+  }
+}

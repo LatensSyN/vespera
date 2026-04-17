@@ -1,0 +1,40 @@
+<!--
+  Vespera — Custom Wazuh rules (optional)
+  Deploy as /var/ossec/etc/rules/0_vespera.xml
+  Rule text below is for Wazuh / agents (usually English). SOC HTML reports use LOCALE
+  in integrations/locales/ and config.py — not these strings.
+-->
+<group name="vespera,suricata,">
+
+  <rule id="100200" level="6">
+    <decoded_as>json</decoded_as>
+    <field name="event_type">^alert$</field>
+    <description>Suricata IDS Alert (custom)</description>
+    <group>suricata,ids,</group>
+  </rule>
+
+  <rule id="100201" level="12">
+    <if_sid>100200</if_sid>
+    <field name="alert.severity">^[12]$</field>
+    <description>Suricata Severity 1-2 Alert</description>
+    <group>suricata,ids,alert,</group>
+  </rule>
+
+  <rule id="100202" level="9">
+    <if_sid>100200</if_sid>
+    <description>Suricata IDS Alert (custom)</description>
+    <group>suricata,ids,</group>
+  </rule>
+
+</group>
+
+<group name="vespera,syscheck,">
+
+  <rule id="100300" level="14">
+    <if_sid>554</if_sid>
+    <field name="file">.exe$|.ps1$|.bat$|.vbs$|.js$|.hta$|.scr$|.cmd$</field>
+    <description>Executable file dropped in monitored path</description>
+    <group>syscheck,fim_suspicious,</group>
+  </rule>
+
+</group>

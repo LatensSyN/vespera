@@ -1,0 +1,17 @@
+[Unit]
+Description=Vespera bridge — Wazuh alerts to OpenCTI
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Adjust paths to your clone (e.g. /mnt/data/vespera or /opt/vespera)
+WorkingDirectory=/opt/vespera
+ExecStart=/usr/bin/python3 /opt/vespera/bridge/wazuh_to_opencti.py
+Restart=on-failure
+RestartSec=30
+# User must be able to reach Wazuh API / OpenSearch / OpenCTI
+# User=wazuh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" role="img" aria-label="Vespera">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f"/>
+      <stop offset="100%" style="stop-color:#3d6fa8"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="12" width="72" height="72" rx="14" fill="url(#g)"/>
+  <path fill="#e8eef6" d="M28 32h24v6H28zm0 14h24v6H28zm0 14h18v6H28z"/>
+  <text x="96" y="62" font-family="Segoe UI,system-ui,sans-serif" font-size="36" font-weight="700" fill="#1a2744">Vespera</text>
+  <text x="96" y="82" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="#5c6b82" letter-spacing="0.08em">SOC AI · WAZUH</text>
+</svg>

@@ -1,0 +1,21 @@
+<!--
+  Vespera — Wazuh integration blocks (manager).
+  Paste inside <ossec_config> in /var/ossec/etc/ossec.conf
+  Custom integration names MUST start with "custom-" (Wazuh requirement).
+  Executables live in /var/ossec/integrations/ (see integrations/custom-* wrappers).
+  IP enrichment uses Active Response (config/ossec-active-response.xml), not integration.
+-->
+
+<integration>
+  <name>custom-ollama</name>
+  <hook_url>http://127.0.0.1</hook_url>
+  <level>10</level>
+  <alert_format>json</alert_format>
+</integration>
+
+<integration>
+  <name>custom-vt-check</name>
+  <hook_url>http://127.0.0.1</hook_url>
+  <rule_id>554</rule_id>
+  <alert_format>json</alert_format>
+</integration>

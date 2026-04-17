@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-04-12T12:00:00.000+0000",
+  "rule": {
+    "id": "554",
+    "level": 7,
+    "description": "File added to the system (test)",
+    "groups": ["syscheck", "ossec"]
+  },
+  "agent": {"id": "000", "name": "lab-agent", "ip": "10.0.0.50"},
+  "syscheck": {
+    "path": "C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Startup/test.exe",
+    "event": "added",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "md5_after": "d41d8cd98f00b204e9800998ecf8427e"
+  }
+}

@@ -1,0 +1,69 @@
+# =============================================================================
+# Postfix — modèle Vespera (lab : Maildir + LAN + réseaux Docker)
+#
+# Usage :
+#   1) cp config/postfix-main.cf.example config/postfix-main.cf
+#   2) Édite config/postfix-main.cf (hostname, domaine, réseaux si besoin)
+#   3) Depuis la racine du dépôt : ./scripts/apply-postfix.sh
+#
+# Le script copie le fichier vers /etc/postfix/main.cf et recharge Postfix.
+# config/postfix-main.cf est ignoré par git (copie locale).
+# =============================================================================
+
+# --- À adapter (exemples fréquents) ---
+# myhostname  : nom FQDN du serveur mail (ex. wazuhh.lan)
+# mydomain    : domaine parent (ex. lan) — utilisé avec myorigin
+# mynetworks  : ajoute ton sous-réseau LAN si ce n’est pas couvert par 10/8, 172.16/12, 192.168/16
+
+smtpd_banner = $myhostname ESMTP $mail_name
+biff = no
+append_dot_mydomain = no
+readme_directory = no
+compatibility_level = 3.6
+
+# Identité
+myhostname = wazuhh.lan
+mydomain = lan
+myorigin = $mydomain
+
+# Boîtes locales sur cette machine
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+
+# Écoute (Docker + LAN)
+inet_interfaces = all
+inet_protocols = ipv4
+
+# Confiance : loopback + LAN usuelles + plages Docker (172.16.0.0/12 inclut 172.17.0.0/16)
+mynetworks = 127.0.0.0/8 [::1]/128 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16
+
+# Livraison Maildir dans le home utilisateur
+home_mailbox = Maildir/
+mailbox_command =
+
+# Relais : uniquement clients de confiance (pas d’ouverture relay Internet)
+smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, defer_unauth_destination
+
+# Lab autonome : pas de smart host (pas de Gmail ici)
+relayhost =
+
+# Alias
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+
+mailbox_size_limit = 0
+recipient_delimiter = +
+
+# TLS smtpd (optionnel en lab interne)
+#smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+#smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+#smtpd_tls_security_level=may
+
+# =============================================================================
+# Option — relai sortant Gmail (décommente et configure /etc/postfix/sasl_passwd)
+# relayhost = [smtp.gmail.com]:587
+# smtp_sasl_auth_enable = yes
+# smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+# smtp_sasl_security_options = noanonymous
+# smtp_tls_security_level = encrypt
+# smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+# =============================================================================
