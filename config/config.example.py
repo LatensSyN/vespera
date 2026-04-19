@@ -12,6 +12,14 @@ ABUSEIPDB_KEY = "YOUR_ABUSEIPDB_API_KEY"
 # --- OpenCTI ---
 OPENCTI_URL = "http://localhost:8080"
 OPENCTI_TOKEN = "YOUR_OPENCTI_API_TOKEN"
+# --- MISP (optional threat intel lookup) ---
+# Leave MISP_URL empty to disable MISP enrichment.
+# Get an API key: MISP UI → Administration → List Users → your user → Auth Keys
+MISP_URL = ""                     # e.g. "https://misp.local:8443"
+MISP_KEY = ""                     # MISP API auth key
+MISP_VERIFY_SSL = False           # True if MISP uses a valid cert
+MISP_TIMEOUT = 10                 # seconds per lookup
+MISP_CACHE_TTL_HOURS = 24         # cache duration for IOC lookups
 
 # --- Wazuh API ---
 WAZUH_API_URL = "https://localhost:55000"

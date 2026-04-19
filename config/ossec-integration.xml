@@ -19,3 +19,10 @@
   <rule_id>554</rule_id>
   <alert_format>json</alert_format>
 </integration>
+
+<integration>
+  <name>custom-misp-enrich</name>
+  <hook_url>http://127.0.0.1</hook_url>
+  <level>7</level>
+  <alert_format>json</alert_format>
+</integration>
