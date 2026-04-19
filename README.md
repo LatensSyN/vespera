@@ -3,7 +3,7 @@
 <img width="2125" height="1031" alt="vespera_logo" src="https://github.com/user-attachments/assets/19da87d1-8ac1-4a0f-a504-ea7a5d7087e0" />
 
 
-**Version 0.3.0** · AI-powered SOC alert pipeline for Wazuh — local LLM analysis, threat intel enrichment, and rich HTML email reports.
+**Version 0.4.0** · AI-powered SOC alert pipeline for Wazuh — local LLM analysis, threat intel enrichment, and rich HTML email reports.
 
 > Built by [Latens.SyN](https://github.com/LatensSyN). Production-minded. No cloud AI required.
 
