@@ -65,7 +65,34 @@ def _load_tr():
         _TR_CACHE = {}
     return _TR_CACHE
 
-def _build_soc_prompt(alert_json, alert_type, vt_score):
+def _load_misp_context(alert_json):
+    """Read MISP enrichment file produced by misp-enrich.py, if present."""
+    try:
+        alert = json.loads(alert_json) if isinstance(alert_json, str) else alert_json
+        alert_id = alert.get("id", "")
+        if not alert_id:
+            return ""
+        path_misp = f"/var/ossec/var/misp-enrich-{alert_id}.json"
+        if not os.path.exists(path_misp):
+            return ""
+        with open(path_misp, encoding="utf-8") as f:
+            data = json.load(f)
+        if not data:
+            return ""
+        lines = []
+        for item in data:
+            ioc = item.get("ioc", "")
+            evts = item.get("details", {}).get("events", [])
+            if evts:
+                tags = ", ".join([e.get("event_info", "")[:60] for e in evts[:3]])
+                lines.append(f"- {ioc} matched in MISP: {tags}")
+        if lines:
+            return "MISP THREAT INTEL MATCH:\n" + "\n".join(lines)
+    except Exception:
+        pass
+    return ""
+
+def _build_soc_prompt(alert_json, alert_type, vt_score, misp_ctx=""):
     if str(LOCALE).lower().startswith("fr"):
         return f"""Tu es un analyste SOC senior. RÉPONDS UNIQUEMENT EN FRANÇAIS.
 Pour cette alerte Wazuh de type {alert_type}, fournis EXACTEMENT ce format sans introduction :
@@ -84,6 +111,7 @@ ACTION 3: [action préventive]
 
 Sois précis. Jamais de vérifier les logs sans dire lesquels exactement. INTERDIT: ne jamais proposer darréter lagent Wazuh, ne jamais proposer net stop wazuh, ne jamais proposer de désactiver la surveillance.
 Score VirusTotal: {vt_score}
+{misp_ctx}
 Alerte: {alert_json}"""
     if str(LOCALE).lower().startswith("es"):
         return f"""Eres un analista SOC senior. RESPONDE ÚNICAMENTE EN ESPAÑOL.
@@ -103,6 +131,7 @@ ACTION 3: [acción preventiva]
 
 Sé preciso. No digas "revisar logs" sin indicar cuáles. NUNCA sugieras detener el agente Wazuh ni desactivar el monitoreo.
 Puntuación VirusTotal: {vt_score}
+{misp_ctx}
 Alerta: {alert_json}"""
     return f"""You are a senior SOC analyst. RESPOND IN ENGLISH ONLY.
 For this Wazuh alert of type {alert_type}, output EXACTLY this format with no preamble:
@@ -121,6 +150,7 @@ ACTION 3: [preventive action]
 
 Be precise. Never say "check logs" without naming which logs. NEVER suggest stopping the Wazuh agent or disabling monitoring.
 VirusTotal score: {vt_score}
+{misp_ctx}
 Alert: {alert_json}"""
 
 def ask_ollama(alert_json, alert_type):
@@ -130,7 +160,8 @@ def ask_ollama(alert_json, alert_type):
         if vt.get("score"): vt_score = vt["score"]+" engines malicious="+vt.get("verdict","")
     except Exception:
         pass
-    prompt = _build_soc_prompt(alert_json, alert_type, vt_score)
+     misp_ctx = _load_misp_context(alert_json)
+    prompt = _build_soc_prompt(alert_json, alert_type, vt_score, misp_ctx)
     payload = json.dumps({"model": OLLAMA_MODEL, "prompt": prompt, "stream": False, "options": {"temperature": 0.3}})
     result = subprocess.run(
         ["curl", "-s", "-X", "POST", OLLAMA_URL,

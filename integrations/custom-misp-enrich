@@ -1,0 +1,3 @@
+#!/bin/bash
+# Vespera — Wazuh integrator entrypoint for MISP enrichment.
+exec python3 /var/ossec/integrations/misp-enrich.py "$@"

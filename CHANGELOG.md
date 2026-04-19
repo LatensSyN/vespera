@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.4.0] — 2026-04-20
+
+### Added
+
+- **MISP integration** (`integrations/misp-enrich.py`) — threat intelligence enrichment pipeline:
+  - Extracts IPs and file hashes (SHA256/SHA1/MD5) from Wazuh alerts
+  - Queries MISP REST API (`/attributes/restSearch`) for IOC matches
+  - Writes enrichment JSON to `/var/ossec/var/misp-enrich-{alert_id}.json` for downstream use
+  - SQLite cache (`/var/ossec/var/misp-cache.db`) with configurable TTL (default 24h)
+  - Skips private IP ranges (RFC1918, loopback, link-local)
+  - Filters by `MIN_ALERT_LEVEL` to reduce noise
+- **`custom-misp-enrich`** — Wazuh integrator wrapper
+- **`_load_misp_context()` in `ollama-alert.py`** — reads MISP enrichment file and injects threat intel context into the LLM prompt for all supported locales (EN/FR/ES)
+- **MISP config in `config.example.py`**: `MISP_URL`, `MISP_KEY`, `MISP_VERIFY_SSL`, `MISP_TIMEOUT`, `MISP_CACHE_TTL_HOURS`
+- **`docs/misp.md`** — MISP setup guide (self-hosted Docker deploy + API key generation + feed activation)
+- **`ossec-integration.xml`** — new `<integration>` block for `custom-misp-enrich` at level ≥ 7
+
+### Changed
+
+- `ollama-alert.py`: prompt builder signature extended with optional `misp_ctx` parameter; MISP context injected between VirusTotal score and alert data in all three language prompts
+- `install.sh`: wizard now prompts for MISP URL/API key (optional, skipped if left blank); deploys `misp-enrich.py` and `custom-misp-enrich` wrapper; creates cache DB and log file with correct `wazuh:wazuh` ownership
+- README: pipeline overview updated to include MISP lookup stage; requirements table adds "MISP (optional)" row
+
+### Fixed
+
+- N/A (feature release)
+
+---
+
 ## [0.3.0] — 2026-04-14
 
 ### Added
